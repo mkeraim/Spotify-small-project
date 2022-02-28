@@ -10,3 +10,83 @@ body {
 	font-weight: 400;
 	font-size: 25px;
 }
+
+/*
+	Bar top
+*/
+.bar-top {
+	display: flex;
+	grid-column: 1 / -1;
+	grid-row: 1;
+	height: 70px;
+	background-color: black;
+	color: white;
+}
+
+.bar-top img {
+	height: 65px;
+	width: 145px;
+}
+
+.bar-top input {
+	height: 40px;
+	width: 191px;
+	margin: 15px 0 15px 70px;
+	padding: 5px;
+	align-content: center;
+	border: none;
+	color: white;
+	background-color: #868e96;
+}
+
+.bar-top button {
+	height: 40px;
+	width: 64px;
+	margin: 15px 0;
+	column-gap: 1px;
+	border: none;
+}
+
+.search-icon {
+	height: 24px;
+	width: 24px;
+	cursor: pointer;
+}
+
+/*
+	Artist list
+*/
+
+.artist-list {
+	grid-column: 1;
+	grid-row: 2;
+	height: 100vh;
+	background-color: red;
+}
+
+/*
+	Artist list album
+*/
+
+.artist-list-album {
+	grid-column: 2;
+	grid-row: 2;
+	height: 100vh;
+	background-color: green;
+}
+
+/*
+	Song album
+*/
+
+.list-song-album {
+	grid-column: 3;
+	grid-row: 2;
+	height: 100vh;
+	background-color: blue;
+}
+
+.interface {
+	display: grid;
+	grid-template-columns: 300px 300px 1fr;
+}
