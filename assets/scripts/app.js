@@ -1,0 +1,6 @@
+class App {
+	
+	
+}
+
+App.init();
