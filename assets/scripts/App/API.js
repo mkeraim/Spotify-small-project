@@ -6,7 +6,7 @@ export class API {
 		this.token = null;
 	}
 	
-	async connect() {
+	async getToken() {
 		// Get token
 		// TODO : find a solution to protect credentials
 		const clientId = '';
@@ -25,7 +25,6 @@ export class API {
 			})
 			
 			if(res.status == 200){
-				console.log(res.status);
 				const token = res.data.access_token;
 				console.log('Connected to Spotify API');
 				return token;
@@ -36,32 +35,53 @@ export class API {
 		}
 	}
 	
-	async search(query, token) {
-
-		if(this.token != null) {
-			try {
-				let res = await axios({
-					method: 'GET',
-					url: 'https://api.spotify.com/v1/search',
-					params: { limit: 50, offset: 0, q: query, type: "artist" },
-					headers: {
-						'Accept': 'application/json',
-						'Authorization': 'Bearer ' + token,
-						'Content-Type': 'application/json',
-					},
-					data: "grant_type=client_credentials",
-					json: true,
-				})
-				
-				if(res.status == 200) {
-					console.log(res.status);
-					console.log(res);
-					return res;
-				}
+	async searchArtist(query, token) {
+		
+		try {
+			let res = await axios({
+				method: 'GET',
+				url: 'https://api.spotify.com/v1/search',
+				params: { limit: 50, offset: 0, q: query, type: "artist" },
+				headers: {
+					'Accept': 'application/json',
+					'Authorization': 'Bearer ' + token,
+					'Content-Type': 'application/json',
+				},
+				data: "grant_type=client_credentials",
+				json: true,
+			})
+			
+			if(res.status == 200) {
+				return res;
 			}
-			catch (err) {
-				console.error(err);
+		}
+		catch (err) {
+			console.error(err);
+		}
+	}
+	
+	async getAlbumsArtist(idArtist, token) {
+		
+		try {
+			let res = await axios({
+				method: 'GET',
+				url: `https://api.spotify.com/v1/artists/${idArtist}/albums`,
+				params: { limit: 50, offset: 0},
+				headers: {
+					'Accept': 'application/json',
+					'Authorization': 'Bearer ' + token,
+					'Content-Type': 'application/json',
+				},
+				data: "grant_type=client_credentials",
+				json: true,
+			})
+			
+			if(res.status == 200) {
+				return res;
 			}
+		}
+		catch (err) {
+			console.error(err);
 		}
 	}
 	

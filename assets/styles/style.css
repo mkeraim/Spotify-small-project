@@ -8,7 +8,7 @@ body {
 	font-family: 'Roboto', sans-serif;
 	line-height: 1;
 	font-weight: 400;
-	font-size: 25px;
+	font-size: 16px;
 }
 
 /*
@@ -18,7 +18,6 @@ body {
 	display: flex;
 	grid-column: 1 / -1;
 	grid-row: 1;
-	height: 70px;
 	background-color: black;
 	color: white;
 }
@@ -58,22 +57,61 @@ body {
 	Artist list
 */
 
-.artist-list {
+#artist-list {
 	grid-column: 1;
 	grid-row: 2;
-	height: 100vh;
-	background-color: red;
+	background-color: white;
+	overflow: scroll;
+	padding: 15px;
+}
+
+#artist-list p {
+	margin: 15px;
+}
+
+.elem-list-artist {
+	cursor: pointer;
+	margin: 15px;
+	background-color: white;
+	box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+	
+	border-width:1px;
+	border-style:solid;
+	border-color: #b8bdc1;
+}
+
+.image-artist-album {
+	height: 200px;
+	width: 200px;
+	margin: 15px;
 }
 
 /*
 	Artist list album
 */
 
-.artist-list-album {
+#artist-list-albums {
 	grid-column: 2;
 	grid-row: 2;
-	height: 100vh;
-	background-color: green;
+	background-color: white;
+	overflow: scroll;
+	padding: 15px;
+}
+
+#artist-list-albums p {
+	margin: 15px;
+}
+
+
+.elem-list-albums {
+	cursor: pointer;
+	margin: 15px;
+	background-color: white;
+	box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+	
+	border-width:1px;
+	border-style:solid;
+	border-color: #b8bdc1;
 }
 
 /*
@@ -90,4 +128,5 @@ body {
 .interface {
 	display: grid;
 	grid-template-columns: 300px 300px 1fr;
+	grid-template-rows: 70px 600px;
 }
