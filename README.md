@@ -1,1 +1,1 @@
-# Spotify-small-projet
+# Spotify-small-project
