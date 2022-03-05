@@ -12,7 +12,7 @@ export class Display {
 				artists: [],
 				albums: [],
 				tracks: [],
-				displayTrack: false
+				inputChange: "",
 			},
 			
 			methods: {
@@ -38,8 +38,13 @@ export class Display {
 					classDisplay.displayAlbums(artist.id);
 				},
 				albumListener(album) {
-					this.displayTracks = true;
 					classDisplay.displayTracks(album.id);
+				}
+			},
+			
+			watch: {
+				inputChange(text) {
+					classDisplay.displayArtists(text);
 				}
 			}
 		});
@@ -53,13 +58,6 @@ export class Display {
 			this.displayArtists();
 		});
 		
-		document.getElementById("input-artist").addEventListener("keyup", () => {
-			if (event.keyCode === 13) { // Enter key
-				event.preventDefault();
-				this.displayArtists();
-			}
-		});
-		
 	}
 	
 	async displayTracks(idAlbum) {
@@ -67,8 +65,6 @@ export class Display {
 		const token = await this.api.getToken();
 		const res = await this.api.getTracksAlbum(idAlbum, token);
 		
-		const tracksList = document.getElementById('list-tracks-album');
-	
 		// Erase previous data
 		this.vueJS.emptyTracks();
 		
@@ -83,8 +79,6 @@ export class Display {
 			});
 			
 		});
-		
-		console.log(res);
 	}
 	
 	async displayAlbums(idArtist) {
@@ -92,8 +86,6 @@ export class Display {
 		const token = await this.api.getToken();
 		const res = await this.api.getAlbumsArtist(idArtist, token);
 		
-		const albumsList = document.getElementById('artist-list-albums');
-	
 		// Erase previous data
 		this.vueJS.emptyAlbums();
 		
@@ -119,15 +111,12 @@ export class Display {
 		});
 	}
 	
-	async displayArtists() {
+	async displayArtists(artist) {
 		// get data on API
 		const token = await this.api.getToken();
-		const value = document.getElementById('input-artist').value;
-		const res = await this.api.searchArtist(value, token);
+		const res = await this.api.searchArtist(artist, token);
 		
 		const items = res.data.artists.items;
-		
-		const artistsList = document.getElementById('artist-list');
 		
 		// Erase previous data
 		this.vueJS.emptyArtists();
