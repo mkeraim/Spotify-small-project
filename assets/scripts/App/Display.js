@@ -3,8 +3,46 @@ import { API } from './API.js';
 export class Display {
 	
 	constructor() {
-		this.api = new API();
+		const classDisplay = this;
 		
+		this.api = new API();
+		this.vueJS = new Vue({
+			el: "#interface",
+			data: {
+				artists: [],
+				albums: [],
+				tracks: [],
+				displayTrack: false
+			},
+			
+			methods: {
+				emptyArtists() {
+					this.artists.splice(0,this.artists.length);
+				},
+				emptyAlbums() {
+					this.albums.splice(0,this.albums.length);
+				},
+				emptyTracks() {
+					this.tracks.splice(0,this.tracks.length);
+				},
+				addArtist(artist) {
+					this.artists.push(artist);
+				},
+				addAlbum(album) {
+					this.albums.push(album);
+				},
+				addTrack(track) {
+					this.tracks.push(track);
+				},
+				artistListener(artist) {
+					classDisplay.displayAlbums(artist.id);
+				},
+				albumListener(album) {
+					this.displayTracks = true;
+					classDisplay.displayTracks(album.id);
+				}
+			}
+		});
 		
 		// Event Listener
 		this.searchArtist();
@@ -24,50 +62,26 @@ export class Display {
 		
 	}
 	
-	addEventArtists() {
-		
-		Array.from(document.getElementsByClassName(`elem-list-artist`)).forEach( (element) => {
-			
-			element.addEventListener("click", () => {
-				const idArtist = element.firstElementChild.innerText;
-				
-				this.displayAlbums(idArtist);
-			});
-		});
-		
-	}
-	
-	addEventAlbums() {
-		
-		Array.from(document.getElementsByClassName(`elem-list-albums`)).forEach( (element) => {
-			
-			element.addEventListener("click", () => {
-				const idAlbum = element.firstElementChild.innerText;
-				
-				this.displayTracks(idAlbum);
-			});
-		});
-	}
-	
 	async displayTracks(idAlbum) {
 		// get data on API
 		const token = await this.api.getToken();
 		const res = await this.api.getTracksAlbum(idAlbum, token);
 		
-		console.log(idAlbum);
-		
 		const tracksList = document.getElementById('list-tracks-album');
 	
 		// Erase previous data
-		tracksList.innerText = '';
+		this.vueJS.emptyTracks();
 		
 		const items = res.data.items;
 		
 		items.forEach( track => {
 			
-			tracksList.innerHTML += `
-			<p> Name : ${track.name} => disc : ${track.disc_number}, track number ${track.track_number} </p>
-			`;
+			this.vueJS.addTrack({ 
+				name: track.name,
+				discNumber: track.disc_number,
+				trackNumber : track.track_number
+			});
+			
 		});
 		
 		console.log(res);
@@ -81,7 +95,7 @@ export class Display {
 		const albumsList = document.getElementById('artist-list-albums');
 	
 		// Erase previous data
-		albumsList.innerText = '';
+		this.vueJS.emptyAlbums();
 		
 		const items = res.data.items;
 		
@@ -96,22 +110,13 @@ export class Display {
 				urlImage = album.images[0].url;
 			}
 			
-			albumsList.innerHTML += `
-			<div class="elem-list-albums">
-				<p style="display: none;">${album.id}</p>
-				
-				<p> Name : ${album.name} </p>
-				
-				
-				<img class="image-artist-album"
-				src=${urlImage}
-				alt="album image" />
-				
-			</div> `;
+			this.vueJS.addAlbum({ 
+				id : album.id, 
+				name: album.name, 
+				url : urlImage
+			});
 			
 		});
-		
-		this.addEventAlbums();
 	}
 	
 	async displayArtists() {
@@ -125,7 +130,7 @@ export class Display {
 		const artistsList = document.getElementById('artist-list');
 		
 		// Erase previous data
-		artistsList.innerText = '';
+		this.vueJS.emptyArtists();
 		
 		items.forEach( artist => {
 			
@@ -137,21 +142,13 @@ export class Display {
 				urlImage = artist.images[0].url;
 			}
 			
-			artistsList.innerHTML += `
-			<div class="elem-list-artist">
-				<p style="display: none;">${artist.id}</p>
-				<p> Name : ${artist.name} </p>
-				
-				
-				<img class="image-artist-album"
-				src=${urlImage}
-				alt="artist image" />
-				
-			</div> `;
+			this.vueJS.addArtist({ 
+				id : artist.id, 
+				name: artist.name, 
+				url : urlImage
+			});
+			
 		});
-		
-		// Add event on all the artist
-		this.addEventArtists();
 	}
 	
 }
