@@ -24,7 +24,7 @@ export class Display {
 		
 	}
 	
-	addEventArtist() {
+	addEventArtists() {
 		
 		Array.from(document.getElementsByClassName(`elem-list-artist`)).forEach( (element) => {
 			
@@ -35,6 +35,42 @@ export class Display {
 			});
 		});
 		
+	}
+	
+	addEventAlbums() {
+		
+		Array.from(document.getElementsByClassName(`elem-list-albums`)).forEach( (element) => {
+			
+			element.addEventListener("click", () => {
+				const idAlbum = element.firstElementChild.innerText;
+				
+				this.displayTracks(idAlbum);
+			});
+		});
+	}
+	
+	async displayTracks(idAlbum) {
+		// get data on API
+		const token = await this.api.getToken();
+		const res = await this.api.getTracksAlbum(idAlbum, token);
+		
+		console.log(idAlbum);
+		
+		const tracksList = document.getElementById('list-tracks-album');
+	
+		// Erase previous data
+		tracksList.innerText = '';
+		
+		const items = res.data.items;
+		
+		items.forEach( track => {
+			
+			tracksList.innerHTML += `
+			<p> Name : ${track.name} => disc : ${track.disc_number}, track number ${track.track_number} </p>
+			`;
+		});
+		
+		console.log(res);
 	}
 	
 	async displayAlbums(idArtist) {
@@ -60,8 +96,6 @@ export class Display {
 				urlImage = album.images[0].url;
 			}
 			
-			console.log(album);
-			
 			albumsList.innerHTML += `
 			<div class="elem-list-albums">
 				<p style="display: none;">${album.id}</p>
@@ -76,6 +110,8 @@ export class Display {
 			</div> `;
 			
 		});
+		
+		this.addEventAlbums();
 	}
 	
 	async displayArtists() {
@@ -114,7 +150,8 @@ export class Display {
 			</div> `;
 		});
 		
-		this.addEventArtist();
+		// Add event on all the artist
+		this.addEventArtists();
 	}
 	
 }

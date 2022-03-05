@@ -85,4 +85,29 @@ export class API {
 		}
 	}
 	
+	async getTracksAlbum(idAlbum, token) {
+		
+		try {
+			let res = await axios({
+				method: 'GET',
+				url: `https://api.spotify.com/v1/albums/${idAlbum}/tracks`,
+				params: { limit: 50, offset: 0 },
+				headers: {
+					'Accept': 'application/json',
+					'Authorization': 'Bearer ' + token,
+					'Content-Type': 'application/json',
+				},
+				data: "grant_type=client_credentials",
+				json: true,
+			})
+			
+			if(res.status == 200) {
+				return res;
+			}
+		}
+		catch (err) {
+			console.error(err);
+		}
+	}
+	
 }

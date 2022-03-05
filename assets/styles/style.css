@@ -62,7 +62,7 @@ body {
 	grid-row: 2;
 	background-color: white;
 	overflow: scroll;
-	padding: 15px;
+	margin: 15px;
 }
 
 #artist-list p {
@@ -80,6 +80,10 @@ body {
 	border-color: #b8bdc1;
 }
 
+.elem-list-artist:hover {
+	background-color: #f1f3f5;
+}
+
 .image-artist-album {
 	height: 200px;
 	width: 200px;
@@ -95,7 +99,7 @@ body {
 	grid-row: 2;
 	background-color: white;
 	overflow: scroll;
-	padding: 15px;
+	margin: 15px;
 }
 
 #artist-list-albums p {
@@ -114,16 +118,35 @@ body {
 	border-color: #b8bdc1;
 }
 
+.elem-list-albums:hover {
+	background-color: #f1f3f5;
+}
+
 /*
 	Song album
 */
 
-.list-song-album {
+#list-tracks-album {
 	grid-column: 3;
 	grid-row: 2;
-	height: 100vh;
-	background-color: blue;
+	margin: 15px;
+	
+	overflow: scroll;
+	box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+	
+	border-width:1px;
+	border-style:solid;
+	border-color: #b8bdc1;
 }
+
+#list-tracks-album p {
+	margin: 15px;
+}
+
+
+/*
+	Interface
+*/
 
 .interface {
 	display: grid;
